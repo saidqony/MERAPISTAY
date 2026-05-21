@@ -6,7 +6,7 @@ export const generateMetadata = ({
   params,
   searchParams,
 }: {
-  params: Promise<{ segments?: string[] }>;
+  params: Promise<{ segments: string[] }>;
   searchParams: Promise<Record<string, string | string[]>>;
 }) =>
   generatePageMetadata({
@@ -23,7 +23,7 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ segments?: string[] }>;
+  params: Promise<{ segments: string[] }>;
   searchParams: Promise<Record<string, string | string[]>>;
 }) {
   return (
