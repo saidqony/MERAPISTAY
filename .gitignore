@@ -1,0 +1,47 @@
+# ─── DEPENDENCIES ─────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── NEXT.JS BUILD & OUTPUT ───────────────────────────────────────────
+.next/
+out/
+build/
+dist/
+
+# ─── ENVIRONMENT VARIABLES & SECRETS ──────────────────────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.pem
+
+# ─── SCRATCH FILES & UTILITIES ────────────────────────────────────────
+scratch_query.ts
+scratch_query.js
+temp/
+tmp/
+*.log
+
+# ─── OS & SYSTEM FILES ───────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ─── IDEs & EDITORS ───────────────────────────────────────────────────
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─── CUSTOM PROJECT IGNORES ───────────────────────────────────────────
+brain/
+design/

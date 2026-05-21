@@ -1,0 +1,90 @@
+# rules.md / .cursorrules
+
+**Proyek:** Website Pemesanan Homestay Magelang (Payload CMS + Next.js)
+**Peran:** Lead Developer (Pedoman Kode untuk AI Coding Agent)
+**Versi:** 1.0
+**Tanggal:** 2026-05-21
+
+---
+
+## 1. Bahasa & Tipe Data
+
+- **Selalu gunakan TypeScript** untuk seluruh file kode (`*.ts`, `*.tsx`). Tidak diizinkan penggunaan file JavaScript murni (`.js`, `.jsx`).
+- **Manfaatkan fitur auto-generate types dari Payload CMS**. Gunakan tipe yang dihasilkan Payload secara otomatis melalui `GeneratedTypes` atau `CollectionConfig` daripada mendefinisikan ulang tipe data secara manual.
+- **Larang penggunaan tipe data `any`**. Setiap variabel, parameter fungsi, dan return type harus dideklarasikan dengan tipe yang spesifik. Jika tipe tidak pasti, gunakan `unknown` lalu lakukan type narrowing.
+- **Hindari `ts-ignore`**. Gunakan `ts-expect-error` hanya pada kasus yang benar-benar tidak terhindari, dan sertakan komentar penjelasan di atasnya.
+
+---
+
+## 2. Styling & UI
+
+- **Wajib menggunakan Tailwind CSS** untuk seluruh styling halaman frontend Next.js.
+- Gunakan sistem token warna, spacing, dan tipografi dari `DesignSystem.md` via `tailwind.config.ts`.
+- Untuk komponen yang sering digunakan (Button, Card, Input, Badge), selalu gunakan komponen React reusable di `src/components/ui/`.
+- Gunakan `cn()` utility (dari `clsx` + `tailwind-merge`) untuk menggabungkan class dinamis secara aman.
+
+---
+
+## 3. Keamanan & Konfigurasi
+
+- **Rahasia proyek wajib diambil dari file `.env`**. Semua variabel berikut **tidak boleh di-hardcode**:
+  - `PAYLOAD_SECRET`, `DATABASE_URI`, `RESEND_API_KEY`, `S3_SECRET_ACCESS_KEY`
+- Variabel yang dibutuhkan di browser harus menggunakan prefix `NEXT_PUBLIC_`.
+- Validasi keberadaan variabel kritis saat startup.
+
+---
+
+## 4. Arsitektur Backend (Payload CMS)
+
+- **Backend dibangun menggunakan Collections, Globals, dan Hooks Payload CMS**.
+- Gunakan `afterChange` hook untuk logika bisnis otomatis (invoice, email).
+- **Wajib** menggunakan `@payloadcms/db-postgres` untuk koneksi database.
+- **Dilarang** menggunakan `@supabase/supabase-js` untuk operasi CRUD Collections Payload.
+- Selalu sertakan proteksi infinite loop hook menggunakan `context.preventInvoiceHook`.
+
+---
+
+## 5. Bahasa Dokumentasi & Kode
+
+- **Komentar kode menggunakan bahasa Indonesia** — jelaskan MENGAPA, bukan WHAT.
+- **Nama variabel dan fungsi** menggunakan bahasa Inggris (camelCase, PascalCase, UPPER_SNAKE_CASE).
+
+---
+
+## 6. Prinsip Clean Code
+
+- Fungsi ideal: tidak lebih dari 30–50 baris.
+- Nama boolean diawali kata kerja: `isLunas`, `invoiceTerkirim`, `bisaDipesan`.
+- Ekstrak logika berulang ke `src/lib/` (DRY principle).
+
+---
+
+## 7. Error Handling
+
+- **Gunakan `try-catch`** di setiap fungsi async yang memanggil layanan eksternal.
+- Jangan biarkan error tertelan — selalu log dengan konteks: `console.error('[NamaHook] Pesan:', error)`.
+- Hook Payload **jangan throw error** yang menghambat operasi admin — gunakan graceful degradation.
+
+---
+
+## 8. React & Next.js
+
+- Gunakan **React Server Components (RSC)** sebagai default.
+- Gunakan **`'use client'`** hanya untuk event handlers, `useState`, `useEffect`, atau library DOM.
+- Hindari `useEffect` berlebihan — pilih data fetching di Server Component.
+- Gunakan App Router conventions: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`.
+
+---
+
+## 9. Definition of Done
+
+Sebelum menandai fitur sebagai selesai:
+
+- [ ] `tsc --noEmit` lolos tanpa error
+- [ ] Tidak ada `any` tanpa justifikasi
+- [ ] Tailwind digunakan untuk seluruh styling baru
+- [ ] Variabel sensitif tidak di-hardcode
+- [ ] Fungsi async berisiko memiliki `try-catch` dengan logging
+- [ ] Komentar kode dalam bahasa Indonesia
+- [ ] Hook Payload menggunakan flag anti-infinite-loop
+- [ ] Komponen default adalah Server Component kecuali butuh interaktivitas
