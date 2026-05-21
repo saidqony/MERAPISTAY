@@ -20,6 +20,15 @@ export const Pesanan: CollectionConfig = {
     defaultColumns: ['namaTamu', 'kamar', 'tanggalCheckIn', 'tanggalCheckOut', 'status', 'invoiceTerkirim'],
     description: 'Kelola pesanan masuk. Ubah status ke "Lunas" untuk memicu pengiriman invoice otomatis.',
   },
+  // Hak Akses Koleksi Pesanan
+  access: {
+    // Siapa saja (tamu publik) diperbolehkan membuat pesanan baru dari website
+    create: () => true,
+    // Hanya admin yang sedang login yang boleh melihat, mengedit, atau menghapus pesanan
+    read: ({ req: { user } }) => Boolean(user),
+    update: ({ req: { user } }) => Boolean(user),
+    delete: ({ req: { user } }) => Boolean(user),
+  },
   fields: [
     // ─── Data Tamu ───────────────────────────────────────────────────
     {
