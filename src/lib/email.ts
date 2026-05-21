@@ -1,9 +1,6 @@
 import { Resend } from 'resend';
 import { formatRupiah, formatTanggal } from './utils';
 
-// Inisialisasi klien Resend dengan API key dari environment
-const resend = new Resend(process.env.RESEND_API_KEY!);
-
 /**
  * Parameter yang dibutuhkan untuk mengirim email invoice.
  */
@@ -27,6 +24,14 @@ export interface SendInvoiceEmailParams {
  * yang menanganinya tanpa menghambat operasi admin.
  */
 export async function sendInvoiceEmail(params: SendInvoiceEmailParams): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn('[sendInvoiceEmail] Peringatan: RESEND_API_KEY tidak ditemukan di environment. Pengiriman email dilewati.');
+    return;
+  }
+
+  const resend = new Resend(apiKey);
+
   const {
     to,
     nomorInvoice,
