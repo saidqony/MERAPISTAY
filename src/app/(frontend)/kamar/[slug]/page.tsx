@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
+
+export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import { MapPin, Users, Moon } from 'lucide-react';
 import { FasilitasList } from '@/components/kamar/FasilitasList';
