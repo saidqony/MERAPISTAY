@@ -26,14 +26,11 @@ export default async function Page({
   params: Promise<{ segments?: string[] }>;
   searchParams: Promise<Record<string, string | string[]>>;
 }) {
-  const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
-
   return (
     <RootPage
       config={configPromise}
-      params={resolvedParams}
-      searchParams={resolvedSearchParams}
+      params={params}
+      searchParams={searchParams}
       importMap={importMap}
     />
   );
